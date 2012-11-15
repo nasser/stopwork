@@ -58,3 +58,5 @@ Copyright (c) 2012 Ramsey Nasser. Released under the MIT License.
 [Skeleton](http://www.getskeleton.com/) Copyright (c) 2012 Dave Gamache
 
 [jQuery](http://jquery.com) Copyright (c) 2012 jQuery Foundation and other contributors
+
+[Marked](https://github.com/chjj/marked) Copyright (c) 2011-2012, Christopher Jeffrey
