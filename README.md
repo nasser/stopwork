@@ -27,6 +27,8 @@ A presentation is an array of strings. Each string represents a slide. The slide
 
 Edit the array to build your presentation. Bare image filenames (`foo.png` as opposed to `http://bar.com/foo.png`) are looked up in the `assets/` folder, which you can fill with your own files.
 
+The code comes with one of my presentations as an example.
+
 Supported Slide Types
 ---------------------
 - **Image slides** display centered images. Images can be local or remote.
