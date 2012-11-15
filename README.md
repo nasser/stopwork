@@ -35,8 +35,13 @@ Supported Slide Types
 - **Web slides** display web pages. Web pages remain are fully interactive.
 - **Text slides** interpret text as Markdown and display the resulting HTML.
 
+Navigation
+----------
+Right and left keyboard keys go to the next and previous slides, respectively. Moving the mouse to the top left corner reveals previous and next buttons that can be clicked. This is useful if a web slide steals keyboard focus.
+
 Next Steps
 ----------
+- Better navigation
 - Interface for building presentations
 - Video slides
 - Modular slide type system
