@@ -1,0 +1,13 @@
+.slide {
+  opacity: 0;
+  display: block;
+
+  -webkit-transition: opacity 0.25s;
+  -moz-transition: opacity 0.25s;
+  -o-transition: opacity 0.25s;
+  transition: opacity 0.25s;
+}
+
+.slide.current {
+  opacity: 1;
+}

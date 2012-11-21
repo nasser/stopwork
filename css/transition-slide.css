@@ -1,0 +1,20 @@
+body {
+  overflow: hidden;
+}
+
+.slide {
+  -webkit-transition: left 0.25s;
+  -moz-transition: left 0.25s;
+  -o-transition: left 0.25s;
+  transition: left 0.25s;
+}
+
+.slide.next {
+  display: block;
+  left: 200% !important;
+}
+
+.slide.prev {
+  display: block;
+  left: -200% !important;
+}
