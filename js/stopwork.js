@@ -44,12 +44,34 @@ function add_slide (content) {
 
 }
 
-function present(content) {
+function present(content, container) {
+  if(!container) container = "body";
+
+  $(container).addClass('stopwork');
+  $(container).addClass('loading');
+
+  // append navigation elements
+  $(container).html('\
+    <div id="navigation">\
+      <button class="prev">&lt;</button>\
+      <button class="next">&gt;</button>\
+      <div class="current" />\
+      <div class="total" />\
+    </div>');
+
   // populate slides
-  for (var i = 0; i < content.length; i++) { add_slide(content[i]); };
+  for (var i = 0; i < content.length; i++) { add_slide(content[i], container); };
 
   // make first slide visible
   $(".slide:first").addClass('current');
+  // mark all other slides as next slides
+  $(".current + .slide").addClass('next');
+  $(".slide:last").addClass('prev');
+
+  $("#navigation .total").html(content.length);
+  $("#navigation .current").html("1");
+
+  $(container).removeClass('loading');
 }
 
 $(function() {
