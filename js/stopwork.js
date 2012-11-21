@@ -53,6 +53,11 @@ function present(content) {
 }
 
 $(function() {
+  // evaluate stopwork script into slideshow
+  if($("script[type$='stopwork']").size() > 0) {
+    present(eval( '[' + $("script[type$='stopwork']").text() + ']' ));
+  }
+
   // keyboard scrolling
   $(window).keydown(function(e) {
     if(e.which == 39) { // right
