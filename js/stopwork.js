@@ -1,15 +1,33 @@
+function get_next_slide (slide) {
+  return slide.next(".slide").size() == 0 ? $(".slide:first") : slide.next(".slide");
+}
+
+function get_prev_slide (slide) {
+  return slide.prev(".slide").size() == 0 ? $(".slide:last") : slide.prev(".slide");
+}
+
+function refresh_next_prev () {
+  $(".slide").removeClass('next').removeClass('prev');
+  get_next_slide($(".slide.current")).addClass('next');
+  get_prev_slide($(".slide.current")).addClass('prev');
+}
+
 function next_slide () {
   var current_slide = $(".slide.current");
   current_slide.removeClass("current");
-  var next_slide = current_slide.next().size() == 0 ? $(".slide:first") : current_slide.next();
-  next_slide.addClass("current");
+  get_next_slide(current_slide).addClass("current");
+
+  $("#navigation .current").html($(".slide").index($(".slide.current")) + 1);
+  refresh_next_prev();
 }
 
 function prev_slide () {
   var current_slide = $(".slide.current");
   current_slide.removeClass("current");
-  var prev_slide = current_slide.prev().size() == 0 ? $(".slide:last") : current_slide.prev();
-  prev_slide.addClass("current");
+  get_prev_slide(current_slide).addClass("current");
+
+  $("#navigation .current").html($(".slide").index($(".slide.current")) + 1);
+  refresh_next_prev();
 }
 
 function add_slide (content, container) {
