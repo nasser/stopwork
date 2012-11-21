@@ -11,15 +11,11 @@ Usage
 I built the presentation by manually editing the `<script>` tag in index.html. There is not other interface yet. The tag looks something like this
 
 ```html
-  <script type="text/javascript">
-  $(function() {
-    present([
-      "# Ramsey Nasser",
-      "# Code as Self Expression",
-      "`self`",
-      // ...
-      ]);
-  })l
+  <script type="text/stopwork">
+    "# Ramsey Nasser",
+    "# Code as Self Expression",
+    "`self`",
+    // ...
   </script>
 ```
 
@@ -27,7 +23,7 @@ A presentation is an array of strings. Each string represents a slide. The slide
 
 Edit the array to build your presentation. Bare image filenames (`foo.png` as opposed to `http://bar.com/foo.png`) are looked up in the `assets/` folder, which you can fill with your own files.
 
-The code comes with one of my presentations as an example.
+The code comes with my original presentations as an example.
 
 Supported Slide Types
 ---------------------
