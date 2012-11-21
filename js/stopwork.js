@@ -88,8 +88,6 @@ function present(content, container) {
 
   $("#navigation .total").html(content.length);
   $("#navigation .current").html("1");
-
-  $(container).removeClass('loading');
 }
 
 $(function() {
@@ -113,3 +111,7 @@ $(function() {
   $("#navigation button.prev").click(function() { prev_slide() });
   $("#navigation button.next").click(function() { next_slide() });
 });
+
+window.onload = function() {
+  $(".stopwork").removeClass('loading');
+}

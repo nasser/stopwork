@@ -1,3 +1,12 @@
+
+.stopwork.loading {
+  background: url(../img/spinner.gif) center center no-repeat;
+}
+
+.stopwork.loading * {
+  opacity: 0.5;
+}
+
 /* general */
 .slide {
   width: 100%;
