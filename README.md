@@ -33,7 +33,7 @@ Supported Slide Types
 
 Navigation
 ----------
-Right and left keyboard keys go to the next and previous slides, respectively. Moving the mouse to the top left corner reveals previous and next buttons that can be clicked. This is useful if a web slide steals keyboard focus.
+Right and left keyboard keys go to the next and previous slides, respectively. Moving the mouse to the bottom center reveals previous and next buttons that can be clicked. This is useful if a web slide steals keyboard focus.
 
 Next Steps
 ----------
