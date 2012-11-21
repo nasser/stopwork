@@ -12,7 +12,7 @@ function prev_slide () {
   prev_slide.addClass("current");
 }
 
-function add_slide (content) {
+function add_slide (content, container) {
   var new_slide = $("<div class='slide'>");
 
   /* image slide */
@@ -20,14 +20,14 @@ function add_slide (content) {
     new_slide.addClass("image");
     if(!content.match(/^http/)) content = "assets/" + content;
     new_slide.css("background-image", "url(" + content + ")");
-    $("body").append(new_slide);
+    $(container).append(new_slide);
 
   /* web slide */
   } else if(content.match(/^http/)) {
     new_slide.addClass("web")
     var iframe = $("<iframe src='" + content + "'>");
     new_slide.append(iframe);
-    $("body").append(new_slide);
+    $(container).append(new_slide);
     iframe.keydown(function(e) {
       console.log(e);
     });
@@ -36,7 +36,7 @@ function add_slide (content) {
   } else {
     new_slide.addClass("text")
     new_slide.html(marked(content));
-    $("body").append(new_slide);
+    $(container).append(new_slide);
 
     new_slide.css("margin-top", "-" + new_slide.height()/2 + "px");
 
