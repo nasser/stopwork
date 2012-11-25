@@ -71,8 +71,8 @@ function present(content, container) {
   // append navigation elements
   $(container).html('\
     <div id="navigation">\
-      <button class="prev">&lt;</button>\
-      <button class="next">&gt;</button>\
+      <button class="prev iconic iconic-arrow-left" />\
+      <button class="next iconic iconic-arrow-right" />\
       <div class="current" />\
       <div class="total" />\
     </div>');

@@ -73,9 +73,9 @@
 
 #navigation button {
   position: absolute;
-  top: 2px;
+  top: 3px;
   text-shadow: none;
-  font-size: 1.5em;
+  font-size: 2em;
 
   border: none;
   background: none;

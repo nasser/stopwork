@@ -56,3 +56,5 @@ Copyright (c) 2012 Ramsey Nasser. Released under the MIT License.
 [jQuery](http://jquery.com) Copyright (c) 2012 jQuery Foundation and other contributors
 
 [Marked](https://github.com/chjj/marked) Copyright (c) 2011-2012, Christopher Jeffrey
+
+[Iconic Font](http://somerandomdude.com/work/iconic/) Copyright (c) 2012, P.J. Onori
