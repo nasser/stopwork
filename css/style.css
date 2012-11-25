@@ -60,11 +60,6 @@
   -o-border-radius: 25px;
   border-radius: 25px;
   color: white;
-
-  -webkit-transition: opacity 0.25s;
-  -moz-transition: opacity 0.25s;
-  -o-transition: opacity 0.25s;
-  transition: opacity 0.25s;
 }
 
 #navigation:hover {
