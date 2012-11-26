@@ -32,16 +32,36 @@ function prev_slide () {
 
 function add_slide (content, container) {
   var new_slide = $("<div class='slide'>");
+  var match;
 
   /* image slide */
-  if(content.match(/\.(png|jpg|jpeg|gif)/i)) {
+  if(match = content.match(/\.(png|jpg|jpeg|gif)/i)) {
     new_slide.addClass("image");
     if(!content.match(/^http/)) content = "assets/" + content;
     new_slide.css("background-image", "url(" + content + ")");
     $(container).append(new_slide);
 
+  /* video slide */
+  } else if(match = content.match(/(youtube|vimeo).*?([\w\d]+)$/)) {
+    var host = match[1], id = match[2];
+
+    new_slide.addClass("web");
+    new_slide.addClass("video");
+
+    var iframe;
+    if(host == "youtube") {
+      iframe = $("<iframe src='http://www.youtube-nocookie.com/embed/" + id + "?rel=0&showinfo=0'>");
+
+    } else if(host == "vimeo") {
+      iframe = $("<iframe src='http://player.vimeo.com/video/" + id + "?badge=0&title=0&portrait=0&byline=0'>");
+
+    }
+
+    new_slide.append(iframe);
+    $(container).append(new_slide);
+
   /* web slide */
-  } else if(content.match(/^http/)) {
+  } else if(match = content.match(/^http/)) {
     new_slide.addClass("web")
     var iframe = $("<iframe src='" + content + "'>");
     new_slide.append(iframe);
