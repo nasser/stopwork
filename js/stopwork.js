@@ -46,9 +46,6 @@ function add_slide (content, container) {
     var iframe = $("<iframe src='" + content + "'>");
     new_slide.append(iframe);
     $(container).append(new_slide);
-    iframe.keydown(function(e) {
-      console.log(e);
-    });
 
   /* text slide */
   } else {
