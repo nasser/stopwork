@@ -50,7 +50,7 @@ function add_slide (content, container) {
 
     var iframe;
     if(host == "youtube") {
-      iframe = $("<iframe src='http://www.youtube-nocookie.com/embed/" + id + "?rel=0&showinfo=0'>");
+      iframe = $("<iframe src='http://www.youtube-nocookie.com/embed/" + id + "?rel=0&showinfo=0&autohide=1&controls=0'>");
 
     } else if(host == "vimeo") {
       iframe = $("<iframe src='http://player.vimeo.com/video/" + id + "?badge=0&title=0&portrait=0&byline=0'>");
