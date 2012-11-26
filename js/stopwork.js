@@ -87,11 +87,13 @@ function present(content, container) {
 
   // append navigation elements
   $(container).html('\
-    <div id="navigation">\
-      <button class="prev iconic iconic-arrow-left" />\
-      <button class="next iconic iconic-arrow-right" />\
-      <div class="current" />\
-      <div class="total" />\
+    <div id="near-navigation"> \
+      <div id="navigation">\
+        <button class="prev iconic iconic-arrow-left" />\
+        <button class="next iconic iconic-arrow-right" />\
+        <div class="current" />\
+        <div class="total" />\
+      </div>\
     </div>');
 
   // populate slides
