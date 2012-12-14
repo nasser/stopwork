@@ -8,26 +8,26 @@ So I built this. It is HTML 5 based, makes use of CSS for styling, and JavaScrip
 
 Usage
 -----
-I built the presentation by manually editing the `<script>` tag in index.html. There is not other interface yet. The tag looks something like this
+Write the presentation directly into the body tag. The syntax I built the presentation by manually editing the `<script>` tag in index.html. There is not other interface yet. The tag looks something like this
 
 ```html
-  <script type="text/stopwork">
-    "# Ramsey Nasser",
-    "# Code as Self Expression",
-    "`self`",
-    // ...
-  </script>
+<body>
+# Stopwork
+Minimal slideshows
+Text is markdown *so* **this** works
+// Move mouse to bottom center of screen for navigation element
+http://funnyvale.org/uploads/funnyvale-1342420563.jpg
+</body>
 ```
 
-A presentation is an array of strings. Each string represents a slide. The slide's type is determined from the string's content (as of now, image URLs, web URLs, and markdown text).
+Each line represents a slide. The slide's type is determined from the string's content (as of now, image URLs, web URLs, and markdown text). A `//` at the start of a line indicates a comment.
 
 Edit the array to build your presentation. Bare image filenames (`foo.png` as opposed to `http://bar.com/foo.png`) are looked up in the `assets/` folder, which you can fill with your own files.
 
-The code comes with my original presentations as an example.
-
 Supported Slide Types
 ---------------------
-- **Image slides** display centered images. Images can be local or remote.
+- **Image slides**  like display centered images. Images can be local or remote.
+- **Video slides** display videos from youtube or vimeo.
 - **Web slides** display web pages. Web pages remain are fully interactive.
 - **Text slides** interpret text as Markdown and display the resulting HTML.
 
@@ -39,8 +39,6 @@ Next Steps
 ----------
 - Better navigation
 - Interface for building presentations
-- Video slides
-- Modular slide type system
 - Themes
 
 Name
