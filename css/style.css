@@ -127,15 +127,17 @@
 
 /* text slides */
 .slide.text {
+  padding: 0 20%;
+}
+
+.slide.text.current {
+  display: table !important;
+}
+
+.slide.text > *  {
+  display: table-cell;
+  vertical-align: middle;
   text-align: center;
-
-  width: 960px;
-  left: 50%;
-  margin-left: -480px;
-
-  height: auto;
-  top: 50%;
-  /* margin-top calculated at run time */
 }
 
 .stopwork.loading {
