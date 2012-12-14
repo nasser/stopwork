@@ -66,8 +66,8 @@
 #near-navigation {
   position: fixed;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  left: 25%;
+  width: 50%;
   height: 15%;
   z-index: 1;
 }
