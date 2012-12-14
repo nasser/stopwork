@@ -21,8 +21,10 @@
 }
 
 .slide p {
-  font-size: 2em;
-  line-height: 1.2em;
+  font-family: "Georgia", "Times New Roman", serif;
+  color: black;
+  font-size: 2.5em;
+  line-height: 1em;
 }
 
 .slide blockquote {
