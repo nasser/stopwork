@@ -12,6 +12,8 @@ var Stopwork = {
 
   filters: [],
 
+  slide_source: [],
+
   filter: function(slide) {
     for (var i = this.filters.length - 1; i >= 0; i--) {
       var filtered_slide = this.filters[i](slide);
