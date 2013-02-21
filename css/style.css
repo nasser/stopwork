@@ -76,6 +76,7 @@
   opacity: 0.5;
 }
 
+#navigation.hover,
 #navigation:hover {
   opacity: 0.9 !important;
 }
