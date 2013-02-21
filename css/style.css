@@ -127,7 +127,7 @@
 
 /* text slides */
 .slide.text {
-  padding: 0 20%;
+  /*padding: 0 20%;*/
 }
 
 .slide.text.current {
