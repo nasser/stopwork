@@ -1,10 +1,10 @@
 var Stopwork = {
   parse: function(source) {
-    return source.trim().replace(/\n\/\/.*\n/g, '').replace(/\n\s*/g, '\n').split("\n");
+    // return source.trim().replace(/\n\/\/.*\n/g, '').replace(/\n\s*/g, '\n').split("\n");
+    return JSON.parse(source);
   },
 
-  compile: function(slide_text) {
-    var slides = this.parse(slide_text);
+  compile: function(slides) {
     return slides.map(function(slide) {
       return Stopwork.filter(slide);
     });
@@ -43,7 +43,7 @@ var Stopwork = {
     current_slide.removeClass("current");
     this.get_next_slide(current_slide).addClass("current");
 
-    $("#navigation .current").html($(".slide").index($(".slide.current")) + 1);
+    $("#navigation .current").html(this.current_slide_number() + 1);
     this.refresh_next_prev();
   },
 
@@ -107,15 +107,20 @@ var Stopwork = {
   },
 
   present: function(content, container) {
+    content = content.trim();
     if(!container) container = "body";
 
-    $container = $(container);
+    this.$container = $(container);
 
-    $container.addClass('stopwork');
-    $container.addClass('loading');
+    this.$container.addClass('stopwork');
+    // this.$container.addClass('loading');
 
     // clear and append navigation elements
-    $container.html('\
+    this.$container.empty();
+    this.$container.html('\
+      <div id="editor"> \
+        <textarea /> \
+      </div> \
       <div id="near-navigation"> \
         <div id="navigation">\
           <button class="prev iconic iconic-arrow-left" />\
@@ -125,33 +130,78 @@ var Stopwork = {
         </div>\
       </div>');
 
-    // keyboard scrolling
-    $(window).keydown(function(e) {
-      if(e.which == 39) { // right
-        Stopwork.next_slide();
-
-      } else if(e.which == 37) { // left
-        Stopwork.prev_slide();
-
-      }
-    });
-
-
     // navigation button scrolling
     $("#navigation button.prev").click(function() { Stopwork.prev_slide() });
     $("#navigation button.next").click(function() { Stopwork.next_slide() });
 
-    // populate slides
-    this.compile(content).forEach(function(slide) { $container.append(slide) })
+    $("#editor textarea").keyup(function(e) {
+      if($("#editor").hasClass('down')) {
+        var current_slide = Stopwork.current_slide_number()
+        Stopwork.slide_source[current_slide] = $("#editor textarea").val();
+        Stopwork.update();
+        Stopwork.goto_slide(current_slide);
+      }
+    })
 
-    // make first slide visible
-    $(".slide:first").addClass('current');
-    // mark all other slides as next slides
-    $(".current + .slide").addClass('next');
-    $(".slide:last").addClass('prev');
+    // keyboard input
+    $(window).keyup(function(e) {
+      $("#navigation").removeClass("hover");
+    });
+
+    $(window).keydown(function(e) {
+      console.log(e.which)
+      if(e.ctrlKey)
+        $("#navigation").addClass("hover");
+
+      if(e.which == 39) { // right
+        if(!$("#editor").hasClass('down'))
+          Stopwork.next_slide();
+
+      } else if(e.which == 37) { // left
+        if(!$("#editor").hasClass('down'))
+          Stopwork.prev_slide();
+
+      } else if(e.which == 27) { // esc
+        if($("#editor").hasClass('down')) {
+          Stopwork.replace_current_slide($("#editor textarea").val());
+          $("#editor").removeClass('down');
+        }
+
+      } else if(e.which == 189 && e.ctrlKey) { // ctrl + -
+        Stopwork.remove_current_slide();
+
+      } else if(e.which == 187 && e.ctrlKey) { // ctrl + +
+        Stopwork.add_slide_here("New slide")
+
+      } else if(e.which == 192 && e.ctrlKey) { // ctrl + `
+        $("#editor").toggleClass('down');
+        if(!$("#editor").hasClass('down')) {
+          Stopwork.replace_current_slide($("#editor textarea").val());
+
+        } else {
+          $("#editor textarea").val(Stopwork.slide_source[Stopwork.current_slide_number()]);
+          $("#editor textarea").focus();
+
+        }
+      }
+    });
+
+    // populate slides
+    this.slide_source = this.parse(content)
+    this.update();
+    this.goto_slide(0);
+  },
+
+  update: function() {
+    $(".slide").remove();
+
+    var container = this.$container;
+    this.compile(this.slide_source).forEach(function(slide) { container.append(slide) })
+
+    localStorage.setItem(this.storage_id(), JSON.stringify(this.slide_source));
 
     $("#navigation .total").html($(".slide").size());
-    $("#navigation .current").html("1");
+  },
 
   storage_id: function () {
     return 'Stopwork' + document.location.hash;
@@ -227,9 +277,8 @@ Stopwork.filters.push(function(slide) {
 })
 
 $(function() {
-  Stopwork.present($(document).text())
+  Stopwork.init();
 })
-
 
 window.onload = function() {
   $(".stopwork").removeClass('loading');
