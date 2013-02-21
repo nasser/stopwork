@@ -50,11 +50,59 @@ var Stopwork = {
     current_slide.removeClass("current");
     this.get_prev_slide(current_slide).addClass("current");
 
-    $("#navigation .current").html($(".slide").index($(".slide.current")) + 1);
+    $("#navigation .current").html(this.current_slide_number() + 1);
     this.refresh_next_prev();
   },
 
+  goto_slide: function(n) {
+    var current_slide = $(".slide.current");
+    current_slide.removeClass("current");
+    $(".slide").eq(n).addClass("current");
+
+    $("#navigation .current").html(this.current_slide_number() + 1);
+    this.refresh_next_prev();
+  },
+
+  current_slide_number: function() {
+    return $(".slide").index($(".slide.current"));
+  },
+
   $container: null,
+
+  remove_slide: function(n) {
+    Stopwork.slide_source.splice(n, 1);
+    Stopwork.update();
+    Stopwork.goto_slide(n);
+  },
+
+  remove_current_slide: function() {
+    this.remove_slide(this.current_slide_number());
+  },
+
+  add_slide: function(n, content) {
+    this.slide_source.splice(n, 0, content);
+    this.update();
+    this.goto_slide(n);
+
+    $("#editor").addClass('down');
+    $("#editor textarea").val(this.slide_source[this.current_slide_number()]);
+    $("#editor textarea").get(0).select(0, $("#editor textarea").val().length);
+    $("#editor textarea").focus();
+  },
+
+  add_slide_here: function(content) {
+    this.add_slide(this.current_slide_number() + 1, content)
+  },
+
+  replace_slide: function(n, content) {
+    this.slide_source[n] = content;
+    this.update();
+    this.goto_slide(n);
+  },
+
+  replace_current_slide: function(content) {
+    this.replace_slide(this.current_slide_number(), content);
+  },
 
   present: function(content, container) {
     if(!container) container = "body";
@@ -102,6 +150,16 @@ var Stopwork = {
 
     $("#navigation .total").html($(".slide").size());
     $("#navigation .current").html("1");
+
+  storage_id: function () {
+    return 'Stopwork' + document.location.hash;
+  },
+
+  init: function() {
+    if(!localStorage.getItem(this.storage_id()))
+      localStorage.setItem(this.storage_id(), '["# Stopwork"]')
+    
+    this.present(localStorage.getItem(this.storage_id()))
   }
 }
 
