@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+
+require "rack"
+require "erb"
+require "json"
+require "kramdown"
+
+module Cobble
+  class Compiler
+    def self.compile source
+      source.split("\n").reject { |e| e.empty? }.reject { |e| e =~ /^\/\// }
+    end
+  end
+
+  class Slideshow
+    attr_accessor :title
+
+    def initialize file
+      @title = file
+      @slides = Compiler.compile open(file).read
+      @template = ERB.new open("slideshow.erb").read
+    end
+
+    def init_script
+      "$(function() { Stopwork.present(#{@slides.to_json}); })"
+    end
+
+    def to_html
+      @template.result binding
+    end
+
+    def to_json
+      @slideshow.to_json
+    end
+  end
+
+  class Server < Rack::Directory
+    def initialize file
+      @file = file
+      super File.dirname(file)
+    end
+
+    def call env
+      if env['REQUEST_PATH'] == "/"
+        [200, {'Content-Type' => 'text/html'}, Slideshow.new(@file).to_html]
+      else
+        super
+      end
+    end
+  end
+end
+
+# p File.dirname File.expand_path(ARGV.first)
+# exit
+
+
+Rack::Handler::Thin.run Cobble::Server.new(ARGV.first), Port:54021

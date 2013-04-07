@@ -1,7 +1,7 @@
 var Stopwork = {
   parse: function(source) {
-    return source.trim().replace(/\n\/\/.*\n/g, '').replace(/\n\s*/g, '\n').split("\n");
-    // return JSON.parse(source);
+    // return source.trim().replace(/\n\/\/.*\n/g, '').replace(/\n\s*/g, '\n').split("\n");
+    return JSON.parse(source);
   },
 
   compile: function(slides) {
@@ -36,6 +36,8 @@ var Stopwork = {
     $(".slide").removeClass('next').removeClass('prev');
     this.get_next_slide($(".slide.current")).addClass('next');
     this.get_prev_slide($(".slide.current")).addClass('prev');
+    if(this.current_slide_number() >= 0)
+      window.location.hash = this.current_slide_number() + 1;
   },
 
   next_slide: function () {
@@ -107,7 +109,7 @@ var Stopwork = {
   },
 
   present: function(content, container) {
-    content = content.trim();
+    // content = content.trim();
     if(!container) container = "body";
 
     this.$container = $(container);
@@ -187,9 +189,9 @@ var Stopwork = {
     });
 
     // populate slides
-    this.slide_source = this.parse(content)
+    this.slide_source = content;
     this.update();
-    this.goto_slide(0);
+    this.goto_slide(window.location.hash.length > 0 ? parseInt(window.location.hash.substring(1)) - 1 : 0);
   },
 
   update: function() {
@@ -207,7 +209,7 @@ var Stopwork = {
     return 'Stopwork' + document.location.hash;
   },
 
-  init: function() {
+  init: function(slides) {
     if($("body").text().length > 0) {
       this.present($("body").text());
 
@@ -280,10 +282,6 @@ Stopwork.filters.push(function(slide) {
   }
 
   return false;
-})
-
-$(function() {
-  Stopwork.init();
 })
 
 window.onload = function() {
