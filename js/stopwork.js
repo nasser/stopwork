@@ -1,7 +1,7 @@
 var Stopwork = {
   parse: function(source) {
-    // return source.trim().replace(/\n\/\/.*\n/g, '').replace(/\n\s*/g, '\n').split("\n");
-    return JSON.parse(source);
+    return source.trim().replace(/\n\/\/.*\n/g, '').replace(/\n\s*/g, '\n').split("\n");
+    // return JSON.parse(source);
   },
 
   compile: function(slides) {
@@ -208,10 +208,16 @@ var Stopwork = {
   },
 
   init: function() {
-    if(!localStorage.getItem(this.storage_id()))
-      localStorage.setItem(this.storage_id(), '["# Stopwork"]')
-    
-    this.present(localStorage.getItem(this.storage_id()))
+    if($("body").text().length > 0) {
+      this.present($("body").text());
+
+    } else {
+      if(!localStorage.getItem(this.storage_id()))
+        localStorage.setItem(this.storage_id(), '["# Stopwork"]')
+      
+      this.present(localStorage.getItem(this.storage_id()))
+
+    }
   }
 }
 
