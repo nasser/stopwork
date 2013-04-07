@@ -272,10 +272,10 @@ Stopwork.filters.push(function(slide) {
 
 /* images */
 Stopwork.filters.push(function(slide) {
-  if(match = slide.match(/\.(png|jpg|jpeg|gif)/i)) {
+  if(slide.match(/\.(png|jpg|jpeg|gif)/i) || slide.match(/^data:image/i)) {
     var new_slide = $("<div class='slide'>");
     new_slide.addClass("image");
-    if(!slide.match(/^http/)) slide = "assets/" + slide;
+    if(!slide.match(/^(http|data:image)/)) slide = "assets/" + slide;
     new_slide.css("background-image", "url(" + slide + ")");
 
     return new_slide;
