@@ -115,7 +115,7 @@ var Stopwork = {
     this.$container = $(container);
 
     this.$container.addClass('stopwork');
-    // this.$container.addClass('loading');
+    this.$container.addClass('loading');
 
     // clear and append navigation elements
     this.$container.empty();
