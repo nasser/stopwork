@@ -12,8 +12,6 @@ var Stopwork = {
 
   filters: [],
 
-  slide_source: [],
-
   filter: function(slide) {
     for (var i = this.filters.length - 1; i >= 0; i--) {
       var filtered_slide = this.filters[i](slide);
@@ -104,8 +102,7 @@ var Stopwork = {
     });
 
     // populate slides
-    this.slide_source = content;
-    this.compile(this.slide_source).forEach(function(slide) { $(container).append(slide) })
+    this.compile(content).forEach(function(slide) { $(container).append(slide) })
     $("#navigation .total").html($(".slide").size());
     this.goto_slide(window.location.hash.length > 0 ? parseInt(window.location.hash.substring(1)) - 1 : 0);
 
