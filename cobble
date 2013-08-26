@@ -30,7 +30,7 @@ module Cobble
     end
 
     def init_script
-      "$(function() { Stopwork.present(#{@slides.to_json}); })"
+      "$(function() { Stopwork.present(#{JSON.pretty_generate(@slides)}); })"
     end
 
     def to_html
