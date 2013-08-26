@@ -48,6 +48,7 @@ module Cobble
     def initialize file
       @file = file
       super File.dirname(file)
+      puts ">> Cobble Slideshow 0.2b"
     end
 
     def call env
