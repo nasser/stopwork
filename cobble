@@ -52,8 +52,7 @@ module Cobble
   end
 end
 
-# p File.dirname File.expand_path(ARGV.first)
-# exit
-
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
 
 Rack::Handler::Thin.run Cobble::Server.new(ARGV.first), Port:54021
