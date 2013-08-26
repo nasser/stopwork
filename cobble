@@ -2,10 +2,11 @@
 
 require "optparse"
 
+
 require "rack"
-require "erb"
 require "json"
 require "kramdown"
+require "mustache"
 
 class String
   def to_title
@@ -22,25 +23,18 @@ module Cobble
     end
   end
 
-  class Slideshow
-    attr_accessor :title
+  class Slideshow < Mustache
+    self.template_file = "./slideshow.mustache"
+
+    attr_accessor :title, :body
 
     def initialize file
       @title = File.basename(file, '.*').to_title + " - Cobble"
       @slides = Compiler.compile open(file).read
-      @template = ERB.new open("slideshow.erb").read
     end
 
     def init_script
       "$(function() { Stopwork.present(#{JSON.pretty_generate(@slides)}); })"
-    end
-
-    def to_html
-      @template.result binding
-    end
-
-    def to_json
-      @slideshow.to_json
     end
   end
 
@@ -53,7 +47,7 @@ module Cobble
 
     def call env
       if env['REQUEST_PATH'] == "/"
-        [200, {'Content-Type' => 'text/html'}, Slideshow.new(@file).to_html]
+        [200, {'Content-Type' => 'text/html'}, Slideshow.new(@file).render]
       else
         super
       end
