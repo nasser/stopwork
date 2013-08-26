@@ -16,7 +16,9 @@ end
 module Cobble
   class Compiler
     def self.compile source
-      source.split("\n").reject { |e| e.empty? }.reject { |e| e =~ /^\/\// }
+      source.split("\n").
+        reject { |e| e.empty? }.    # empty lines
+        reject { |e| e =~ /^\/\// } # comments
     end
   end
 
