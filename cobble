@@ -7,6 +7,12 @@ require "erb"
 require "json"
 require "kramdown"
 
+class String
+  def to_title
+    gsub(/[-_.\s]([a-zA-Z0-9])/) { $1.upcase }.gsub(/([A-Z])/) { " #{$1}"}.gsub(/^([a-z])/) { $1.upcase }
+  end
+end
+
 module Cobble
   class Compiler
     def self.compile source
@@ -18,7 +24,7 @@ module Cobble
     attr_accessor :title
 
     def initialize file
-      @title = file
+      @title = File.basename(file, '.*').to_title + " - Cobble"
       @slides = Compiler.compile open(file).read
       @template = ERB.new open("slideshow.erb").read
     end
