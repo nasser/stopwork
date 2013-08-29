@@ -1,61 +1,6 @@
 #!/usr/bin/env ruby
 
-require "optparse"
+require_relative "lib/cobble/cobble"
 
-
-require "rack"
-require "json"
-require "kramdown"
-require "mustache"
-
-class String
-  def to_title
-    gsub(/[-_.\s]([a-zA-Z0-9])/) { $1.upcase }.gsub(/([A-Z])/) { " #{$1}"}.gsub(/^([a-z])/) { $1.upcase }
-  end
-end
-
-module Cobble
-  class Compiler
-    def self.compile source
-      source.split("\n").
-        reject { |e| e.empty? }.    # empty lines
-        reject { |e| e =~ /^\/\// } # comments
-    end
-  end
-
-  class Slideshow < Mustache
-    self.template_file = "./slideshow.mustache"
-
-    attr_accessor :title, :body
-
-    def initialize file
-      @title = File.basename(file, '.*').to_title + " - Cobble"
-      @slides = Compiler.compile open(file).read
-    end
-
-    def init_script
-      "$(function() { Stopwork.present(#{JSON.pretty_generate(@slides)}); })"
-    end
-  end
-
-  class Server < Rack::Directory
-    def initialize file
-      @file = file
-      super File.dirname(file)
-      puts ">> Cobble Slideshow 0.2b"
-    end
-
-    def call env
-      if env['REQUEST_PATH'] == "/"
-        [200, {'Content-Type' => 'text/html'}, Slideshow.new(@file).render]
-      else
-        super
-      end
-    end
-  end
-end
-
-Encoding.default_external = Encoding::UTF_8
-Encoding.default_internal = Encoding::UTF_8
-
-Rack::Handler::Thin.run Cobble::Server.new(ARGV.first), Port:54021
+Cobble::Server.launch(ARGV.first)
+# puts Cobble::Slideshow.new(ARGV.first).render
