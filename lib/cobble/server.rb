@@ -8,7 +8,7 @@ module Cobble
     end
 
     def launch port=54021
-      puts ">> Cobble Slideshow 0.2b"
+      puts ">> Cobble Serving on #{`ipconfig getifaddr en1`.strip}:#{port} (v0.2b codename DeKalb)"
       Rack::Handler::Thin.run self, :Port => port
     end
 
