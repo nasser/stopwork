@@ -2,22 +2,38 @@ require "rack"
 require_relative "cobble"
 
 module Cobble
-  class Server < Rack::Directory
+  class Server
     def self.launch file, port=54021
-      Rack::Handler::Thin.run new(file), :Port => port
+      new(file).launch(port)
+    end
+
+    def launch port=54021
+      puts ">> Cobble Slideshow 0.2b"
+      Rack::Handler::Thin.run self, :Port => port
     end
 
     def initialize file
       @file = file
-      super File.dirname(file)
-      puts ">> Cobble Slideshow 0.2b"
+      super File.dirname(__FILE__)
     end
 
     def call env
+      # root serves slideshow markup
       if env['REQUEST_PATH'] == "/"
         [200, {'Content-Type' => 'text/html'}, Slideshow.new(@file).render]
+
+      # check local to slideshow file first for assets
+      elsif File.exists? File.expand_path(File.dirname(@file) + env['REQUEST_PATH'])
+        [200, {'Content-Type' => 'text/html'}, open(File.expand_path(File.dirname(@file) + env['REQUEST_PATH'])).read]
+
+      # check local to library second for assets
+      elsif File.exists? File.expand_path(File.dirname(__FILE__) + env['REQUEST_PATH'])
+        [200, {'Content-Type' => 'text/html'}, open(File.expand_path(File.dirname(__FILE__) + env['REQUEST_PATH'])).read]
+
+      # else not found
       else
-        super
+        [404, {'Content-Type' => 'text/html'}, "<h1>NOT FOUND</h1>"]
+
       end
     end
   end
