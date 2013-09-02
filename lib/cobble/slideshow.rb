@@ -4,7 +4,7 @@ require_relative "cobble"
 module Cobble
   # Template for whole slideshow
   class Slideshow < Mustache
-    self.template_file = "./slideshow.mustache"
+    self.template_file = File.expand_path(File.dirname(__FILE__) + "/slideshow.mustache")
 
     attr_accessor :title
 
