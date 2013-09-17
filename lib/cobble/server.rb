@@ -21,7 +21,7 @@ module Cobble
     def call env
       # root serves slideshow markup
       if env['REQUEST_PATH'] == "/"
-        [200, {'Content-Type' => 'text/html'}, Slideshow.new(@file).render]
+        [200, {'Content-Type' => 'text/html'}, Slideshow.new(open(@file)).render]
 
       # check local to slideshow file first for assets
       elsif File.exists? File.expand_path(File.dirname(@file) + env['REQUEST_PATH'])

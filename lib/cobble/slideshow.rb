@@ -8,9 +8,15 @@ module Cobble
 
     attr_accessor :title
 
-    def initialize file
-      @title = File.basename(file, '.*').to_title + " - Cobble"
-      @slides = Compiler.compile open(file).read
+    def initialize source
+      @title = "Cobble Slideshow"
+
+      if source.respond_to? :read
+        @title = File.basename(source, '.*').to_title + " - " + @title
+        source = source.read
+      end
+
+      @slides = Compiler.compile source
     end
 
     def body
