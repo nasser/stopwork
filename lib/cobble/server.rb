@@ -9,6 +9,7 @@ module Cobble
 
     def launch port=54021
       puts ">> Cobble Serving on #{`ipconfig getifaddr en1`.strip}:#{port} (v0.2b codename DeKalb)"
+      `open http://localhost:#{port}`
       Rack::Handler::Thin.run self, :Port => port
     end
 
