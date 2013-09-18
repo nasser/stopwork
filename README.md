@@ -4,32 +4,27 @@ A minimal public presentation platform.
 
 Keynote and Powerpoint are almost always too bloated for the presentations I build. They are full to the brim with features that I never use, like transitions, formatting, sound effects, and whatever a ["build"](http://support.apple.com/kb/HT4639) is.
 
-So I built this. It is HTML 5 based, makes use of CSS for styling, and JavaScript for slide logic. It makes the kind of presentations I do very easy to knock together, and it may do the same for you.
+So I built this. It is HTML 5 based, makes use of CSS for styling, JavaScript for slide logic, and Ruby to spin up a server and interpret the slideshow files. It makes the kind of presentations I do very easy to knock together, and it may do the same for you.
 
 Usage
 -----
-Write the presentation directly into the body tag. The syntax I built the presentation by manually editing the `<script>` tag in index.html. There is not other interface yet. The tag looks something like this
+Write your presentation into a text file.
 
-```html
-<body>
-# Stopwork
-Minimal slideshows
-Text is markdown *so* **this** works
-// Move mouse to bottom center of screen for navigation element
-http://funnyvale.org/uploads/funnyvale-1342420563.jpg
-</body>
+```
+# Hello, world!
+## Isn't this cool?
+http://p.im9.eu/cool-winking-puppy.jpg
+
+So, I searched 'funny cat' in YouTube
+Top result:
+http://www.youtube.com/watch?v=Kdgt1ZHkvnM
+
+// some research
+# Ever wondered where funny cats come from?
+http://en.wikipedia.org/wiki/Lolcat
 ```
 
-Each line represents a slide. The slide's type is determined from the string's content (as of now, image URLs, web URLs, and markdown text). A `//` at the start of a line indicates a comment.
-
-Edit the array to build your presentation. Bare image filenames (`foo.png` as opposed to `http://bar.com/foo.png`) are looked up in the `assets/` folder, which you can fill with your own files.
-
-Supported Slide Types
----------------------
-- **Image slides**  like display centered images. Images can be local or remote.
-- **Video slides** display videos from youtube or vimeo.
-- **Web slides** display web pages. Web pages remain are fully interactive.
-- **Text slides** interpret text as Markdown and display the resulting HTML.
+Each line represents a slide. Blank lines and lines beggining with `//` are ignored. The slide's type is determined from the text's content. Anything that looks like an image is interpreted and displayed as an image. Anything that looks like a video link or webpage is embedded. Everything else is rendered as [Markdown](http://daringfireball.net/projects/markdown/syntax). That's all.
 
 Navigation
 ----------
@@ -37,22 +32,21 @@ Right and left keyboard keys go to the next and previous slides, respectively. M
 
 Next Steps
 ----------
-- Better navigation
-- Interface for building presentations
-- Themes
+- Better local asset support
+- Custom types
+- Custom slide transitions
+- Custom themes
 
 Name
 ----
-The platform is named after the monthly Stop Work meetings at [Eyebeam](http://eyebeam.org) where fellows and residents present their work and receive feedback.
+The platform was originally named after the monthly Stop Work meetings at [Eyebeam](http://eyebeam.org) where fellows and residents present their work and receive feedback. The working title is Cobble. We'll see what it ends up getting called.
 
 Legal 
 -----
-Copyright (c) 2012 Ramsey Nasser. Released under the MIT License.
+Copyright © 2012-2013 Ramsey Nasser. Released under the MIT License.
 
-[Skeleton](http://www.getskeleton.com/) Copyright (c) 2012 Dave Gamache
+[Skeleton](http://www.getskeleton.com/) Copyright © 2012 Dave Gamache
 
-[jQuery](http://jquery.com) Copyright (c) 2012 jQuery Foundation and other contributors
+[jQuery](http://jquery.com) Copyright © 2012 jQuery Foundation and other contributors
 
-[Marked](https://github.com/chjj/marked) Copyright (c) 2011-2012, Christopher Jeffrey
-
-[Iconic Font](http://somerandomdude.com/work/iconic/) Copyright (c) 2012, P.J. Onori
+[Iconic Font](http://somerandomdude.com/work/iconic/) Copyright © 2012, P.J. Onori
