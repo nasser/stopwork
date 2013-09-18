@@ -12,7 +12,7 @@ module Cobble
 
       # populate div with an iframe
       def template
-        '<div class="slide web"><iframe src="{{slide}}" /></div>'
+        '<div class="slide web"><iframe src="{{slide}}"></iframe></div>'
       end
     end
   end
