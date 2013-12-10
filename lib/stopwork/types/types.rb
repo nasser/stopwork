@@ -1,7 +1,7 @@
 require "mustache"
-require_relative "../cobble"
+require_relative "../Stopwork"
 
-module Cobble
+module Stopwork
   module Types
     class <<self
       attr_accessor :match_order
@@ -33,7 +33,7 @@ require_relative "image"
 require_relative "web"
 require_relative "video"
 
-module Cobble
+module Stopwork
   module Types
     self.match_order = [Image, Video, Web, Text]
 

@@ -70,7 +70,7 @@ Next Steps
 
 Name
 ----
-The platform was originally named after the monthly Stop Work meetings at [Eyebeam](http://eyebeam.org) where fellows and residents present their work and receive feedback. The working title is Cobble. We'll see what it ends up getting called.
+The platform was originally named after the monthly Stop Work meetings at [Eyebeam](http://eyebeam.org) where fellows and residents present their work and receive feedback.
 
 Legal 
 -----

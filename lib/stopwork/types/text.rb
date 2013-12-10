@@ -1,7 +1,7 @@
 require "kramdown"
 require_relative "types"
 
-module Cobble
+module Stopwork
   module Types
     # Text slides
     # 

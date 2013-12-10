@@ -1,4 +1,4 @@
-module Cobble
+module Stopwork
   class Compiler
     # Convert slide source to string array
     def self.compile source

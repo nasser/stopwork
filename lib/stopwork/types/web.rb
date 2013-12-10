@@ -1,4 +1,4 @@
-module Cobble
+module Stopwork
   module Types
     # Web slides
     # 

@@ -1,5 +1,0 @@
-#!/usr/bin/env ruby
-
-require_relative "../lib/cobble/cobble"
-
-Cobble::Server.launch(ARGV.first)

@@ -1,14 +1,14 @@
 require "rack"
-require_relative "cobble"
+require_relative "stopwork"
 
-module Cobble
+module Stopwork
   class Server
     def self.launch file, port=54021
       new(file).launch(port)
     end
 
     def launch port=54021
-      puts ">> Cobble Serving on #{`ipconfig getifaddr en1`.strip}:#{port} (v0.2b codename DeKalb)"
+      puts ">> Stopwork Serving on #{`ipconfig getifaddr en1`.strip}:#{port} (v0.2b codename DeKalb)"
       `open http://localhost:#{port}`
       Rack::Handler::Thin.run self, :Port => port
     end

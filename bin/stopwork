@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/stopwork/stopwork"
+
+Stopwork::Server.launch(ARGV.first)
