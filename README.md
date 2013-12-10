@@ -10,7 +10,16 @@ Usage
 -----
 
 ### Get Stopwork
-Grab the code off of GitHub and `cd` into the folder. There is no Ruby Gem yet.
+There is no Ruby Gem yet, so the installation procedure is manual.
+
+Install Stopwork's dependancies.
+
+```
+$ gem install kramdown
+$ gem install mustache
+```
+
+Grab the code off of GitHub and `cd` into the folder.
 
 ```
 $ git clone git@github.com:nasser/stopwork.git
@@ -44,9 +53,9 @@ Launch the presentation by running the script in the `bin` folder with the path 
 $ ./bin/stopwork presentation.stpwrk
 ```
 
-This will spin up a server at `http://localhost:54021` where your presentation can be found. Steer any modern browser to that URL and you're set.
+This will spin up a server at `http://localhost:54021` where your presentation can be found.
 
-That's all. 
+Speak slowly, clearly, and confidently, and maintain eye contact with your audience. You're going to do great.
 
 Navigation
 ----------
