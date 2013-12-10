@@ -8,7 +8,17 @@ So I built this. It is HTML 5 based, makes use of CSS for styling, JavaScript fo
 
 Usage
 -----
-Write your presentation into a text file.
+
+### Get Stopwork
+Grab the code off of GitHub and `cd` into the folder. There is no Ruby Gem yet.
+
+```
+$ git clone git@github.com:nasser/stopwork.git
+$ cd stopwork
+```
+
+### Write presentation
+Write your presentation into a text file, e.g. `presentation.stpwrk`
 
 ```
 # Hello, world!
@@ -25,6 +35,18 @@ http://en.wikipedia.org/wiki/Lolcat
 ```
 
 Each line represents a slide. Blank lines and lines beggining with `//` are ignored. The slide's type is determined from the text's content. Anything that looks like an image is interpreted and displayed as an image. Anything that looks like a video link or webpage is embedded. Everything else is rendered as [Markdown](http://daringfireball.net/projects/markdown/syntax). That's all.
+
+### Launch presentation
+
+Launch the presentation by running the script in the `bin` folder with the path to the presentation file as an argument
+
+```
+$ ./bin/stopwork presentation.stpwrk
+```
+
+This will spin up a server at `http://localhost:54021` where your presentation can be found. Steer any modern browser to that URL and you're set.
+
+That's all. 
 
 Navigation
 ----------
