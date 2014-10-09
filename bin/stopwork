@@ -2,4 +2,10 @@
 
 require_relative "../lib/stopwork/stopwork"
 
-Stopwork::Server.launch(ARGV.first)
+if ARGV.size == 1
+  Stopwork::Server.launch(ARGV.first)
+  
+elsif ARGV.size > 1 and ARGV.first == "export"
+  Stopwork::Exporter.export(ARGV[1], ARGV[2] || "#{ARGV[1]}.html")
+end
+  

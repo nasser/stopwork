@@ -15,7 +15,7 @@ module Stopwork
 
     def initialize file
       @file = file
-      super File.dirname(__FILE__)
+      # super File.dirname(__FILE__)
     end
 
     def call env
