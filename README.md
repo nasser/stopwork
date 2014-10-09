@@ -63,6 +63,7 @@ Right and left keyboard keys go to the next and previous slides, respectively. M
 
 Next Steps
 ----------
+- Responsive CSS for smaller screens
 - Better local asset support
 - Custom types
 - Custom slide transitions
