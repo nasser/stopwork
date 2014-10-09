@@ -57,6 +57,16 @@ This will spin up a server at `http://localhost:54021` where your presentation c
 
 Speak slowly, clearly, and confidently, and maintain eye contact with your audience. You're going to do great.
 
+### Export presentation
+
+To share your presentation, exporting it
+
+```
+$ ./bin/stopwork export presentation.stpwrk
+```
+
+This will create `presentation.stpwrk.html` with all the CSS and JavaScript embedded in it.
+
 Navigation
 ----------
 Right and left keyboard keys go to the next and previous slides, respectively. Moving the mouse to the bottom center reveals previous and next buttons that can be clicked. This is useful if a web slide steals keyboard focus.
@@ -64,6 +74,7 @@ Right and left keyboard keys go to the next and previous slides, respectively. M
 Next Steps
 ----------
 - Responsive CSS for smaller screens
+- Embed images on export
 - Better local asset support
 - Custom types
 - Custom slide transitions
