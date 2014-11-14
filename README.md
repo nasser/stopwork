@@ -59,7 +59,7 @@ Speak slowly, clearly, and confidently, and maintain eye contact with your audie
 
 ### Export presentation
 
-To share your presentation, exporting it
+To share your presentation, export it
 
 ```
 $ ./bin/stopwork export presentation.stpwrk
