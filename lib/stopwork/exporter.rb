@@ -3,9 +3,9 @@ require_relative "stopwork"
 
 module Stopwork
   class Exporter
-    def self.export file, output
-      print "Exporting #{file} to #{output}..."
-      File.open(output, 'w') { |f| f.write Slideshow::Export.new(open(file)).render }
+    def self.export file
+      print "Exporting #{file} to #{file}.html..."
+      File.open("#{file}.html", 'w') { |f| f.write Slideshow::Export.new(open(file)).render }
       puts "OK"
     end
   end
