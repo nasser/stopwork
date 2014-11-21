@@ -2,26 +2,26 @@
 
 @import url(http://fonts.googleapis.com/css?family=PT+Mono);
 
-body {
+body, p, h1, h2, h3, h4, h5, h6  {
   color: #53535c;
-  margin: 0 40px 0 40px;
   font-family: "Georgia", "Times New Roman", serif;
   font-size: 100%;
+  font-weight: 700;
   text-align: left;
 }
 
 .slide {
   width: 100%;
   height: 100%;
-
   position: absolute;
   display: none;
 }
 
 .slide h1 {
   font-size: 12.873rem;
-  line-height: 8.335rem;
+  line-height: 20.841rem;
   text-align: center;
+  letter-spacing: 4px;
 }
 
 .slide h2 {
@@ -42,7 +42,7 @@ body {
   line-height: 4.632rem;
 }
 
-.slide h5 {
+.slide h5, h6 {
   font-family: 'PT Mono', Monaco, monospace;
   font-weight: 100;
   font-size: 2.779em; 
@@ -52,25 +52,19 @@ body {
 }
 
 .slide h6 {
-  font-family: 'PT Mono', Monaco, monospace;
-  font-size: 1rem;
-  line-height: 1.799rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-bottom: 4px solid hsla(240, 5%, 34%, 0.5); 
+  color: hsla(355, 83%, 46%, 1); 
 }
 
-.slide small, .slide code {
+.slide code {
   font-family: 'PT Mono', Monaco, monospace;
-  font-size: 1rem;
-  line-height: 1.799rem;
+  font-size: 1.799rem;
+  line-height: 2.999rem;
   margin-bottom: 1rem;
 }
 
-.slide p, .slide code {
+.slide p {
   font-size: 1.799rem;
   line-height: 2.999rem;
-  display: block;
 }
 
 .slide blockquote {
@@ -82,9 +76,6 @@ body {
   font-size: 1em;
 }
 
-.slide code {
-  font-family: Monaco, monospace;
-}
 
 .slide *:last-child {
   margin-bottom: 0px;
@@ -175,11 +166,15 @@ body {
 
 /* text slides */
 .slide.text {
-  /*padding: 0 20%;*/
+  margin-top: -7rem;
+  padding: 0 2%;
 }
 
 .slide.text.current {
   display: table !important;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+   -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+   box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
 .slide.text > *  {
