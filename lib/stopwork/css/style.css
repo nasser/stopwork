@@ -57,7 +57,7 @@ body, p, h1, h2, h3, h4, h5, h6  {
 
 .slide code {
   font-family: 'PT Mono', Monaco, monospace;
-  font-size: 1.799rem;
+  font-size: 1.799rem;  
   line-height: 2.999rem;
   margin-bottom: 1rem;
 }
@@ -166,7 +166,7 @@ body, p, h1, h2, h3, h4, h5, h6  {
 
 /* text slides */
 .slide.text {
-  margin-top: -7rem;
+  margin-top: -4rem;
   padding: 0 2%;
 }
 
