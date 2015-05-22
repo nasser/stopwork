@@ -164,3 +164,7 @@
 .cobble.loading * {
   opacity: 0.5;
 }
+
+.cobble {
+  margin: 100px;
+}
