@@ -6,10 +6,11 @@ module Stopwork
   class Slideshow < Mustache
     self.template_file = File.expand_path(File.dirname(__FILE__) + "/slideshow.mustache")
 
-    attr_accessor :title
+    attr_accessor :title, :source
 
     def initialize source
       @title = "Stopwork Slideshow"
+      @source = source
 
       if source.respond_to? :read
         @title = File.basename(source, '.*').to_title + " - " + @title
@@ -20,7 +21,18 @@ module Stopwork
     end
 
     def body
-      @slides.map { |s| Stopwork::Types.render(s) }.join "\n"
+      @slides.map { |s| Stopwork::Types.render(s, self) }.join "\n"
+    end
+    
+    def cache_folder_name
+      "/.stopwork"
+    end
+    
+    def cache_folder_path
+      cache_folder_path = File.expand_path(File.dirname(@source)) + "/.stopwork"
+      Dir.mkdir(cache_folder_path) unless File.exists? cache_folder_path
+      
+      cache_folder_path
     end
     
     class Export < Slideshow

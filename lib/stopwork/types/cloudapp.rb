@@ -13,7 +13,7 @@ module Stopwork
       # url is adjusted to accomodate local images
       # TODO figure this out
       def url
-        "#{slide}/.png"
+        cached "#{slide}/.png"
       end
     end
   end

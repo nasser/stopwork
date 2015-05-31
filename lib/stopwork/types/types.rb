@@ -13,8 +13,9 @@ module Stopwork
     # a basis for other slide types.
     class Slide < Mustache
       attr_reader :slide
-      def initialize slide
+      def initialize slide, slideshow
         @slide = slide
+        @slideshow = slideshow
       end
 
       def self.match? slide
@@ -38,8 +39,8 @@ module Stopwork
   module Types
     self.match_order = [CloudApp, Image, Video, Web, Text]
 
-    def self.render slide
-      self.match_order.select { |f| f.match? slide }.first.new(slide).render # TODO optimize
+    def self.render slide, slideshow
+      self.match_order.select { |f| f.match? slide }.first.new(slide, slideshow).render # TODO optimize
     end
   end
 end

@@ -1,3 +1,5 @@
+require 'digest/sha1'
+
 module Stopwork
   module Types
     # Image slides
@@ -15,13 +17,31 @@ module Stopwork
         '<div class="slide image" style="background-image:url({{url}});"></div>'
       end
 
+      def cached url
+        url_hash = Digest::SHA1.hexdigest url
+        
+        if File.exists? @slideshow.cache_folder_path + "/" + url_hash
+          # file exits in cache, use it
+          @slideshow.cache_folder_name + "/" + url_hash
+        else
+          # file not in cache, download it
+          fork do
+            exec "echo \"#{url} -> #{url_hash}\";
+                  curl -#L #{url} -o #{@slideshow.cache_folder_path}/#{url_hash}-incomplete;
+                  mv #{@slideshow.cache_folder_path}/#{url_hash}-incomplete #{@slideshow.cache_folder_path}/#{url_hash}"
+          end
+          
+          url
+        end
+      end
+      
       # url is adjusted to accomodate local images
       # TODO figure this out
       def url
-        if slide =~ /^(http:|https:|file:|data:image)/
-          slide
+        if slide =~ /^data:image/
+          slide 
         else
-          "assets/#{slide}"
+          cached slide
         end
       end
     end
