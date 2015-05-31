@@ -18,21 +18,28 @@ module Stopwork
         @slideshow = slideshow
       end
       
-      def cached url
-        url_hash = Digest::SHA1.hexdigest url
+      def cached url, key=nil
+        key = url if key.nil?
+        key_hash = Digest::SHA1.hexdigest key
         
-        if File.exists? @slideshow.cache_folder_path + "/" + url_hash
+        cached_finished = @slideshow.cache_folder_path + "/" + key_hash
+        cached_incomplete = cached_finished + "-incomplete"
+        
+        if File.exists? cached_finished
           # file exits in cache, use it
-          @slideshow.cache_folder_name + "/" + url_hash
+          @slideshow.cache_folder_name + "/" + key_hash
+          
+        elsif File.exists? cached_incomplete
+          # file is being downloaded, dont start new download, use url for now
+          url
         else
-          # file not in cache, download it
+          # file not in cache, not downloading, download it, use url for now
           fork do
-            exec "echo \"#{url} -> #{url_hash}\";
-                  curl -#L #{url} -o #{@slideshow.cache_folder_path}/#{url_hash}-incomplete;
-                  mv #{@slideshow.cache_folder_path}/#{url_hash}-incomplete #{@slideshow.cache_folder_path}/#{url_hash}"
+            exec "echo \"#{key} -> #{key_hash}\";
+                  curl -#L \"#{url}\" -o \"#{cached_incomplete}\";
+                  mv \"#{cached_incomplete}\" \"#{cached_finished}\""
           end
           
-          # return url for now
           url
         end
       end
@@ -54,10 +61,11 @@ require_relative "cloudapp"
 require_relative "imgur"
 require_relative "web"
 require_relative "video"
+require_relative "hostedvideo"
 
 module Stopwork
   module Types
-    self.match_order = [Imgur, CloudApp, Image, Video, Web, Text]
+    self.match_order = [Imgur, CloudApp, Image, HostedVideo, Video, Web, Text]
 
     def self.render slide, slideshow
       self.match_order.select { |f| f.match? slide }.first.new(slide, slideshow).render # TODO optimize
