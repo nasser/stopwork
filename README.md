@@ -39,7 +39,7 @@ So, I searched 'funny cat' in YouTube
 Top result:
 http://www.youtube.com/watch?v=Kdgt1ZHkvnM
 
-// some research
+; some research
 # Ever wondered where funny cats come from?
 http://en.wikipedia.org/wiki/Lolcat
 ```
