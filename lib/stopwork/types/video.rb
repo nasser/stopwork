@@ -12,7 +12,7 @@ module Stopwork
 
       # populate the div with the appropriate video tag
       def template
-        '<div class="slide video"><video preload=true src="{{slide}}"" controls></video></div>'
+        '<div class="slide video"><video preload=true src="{{slide}}" controls></video></div>'
       end
     end
   end
