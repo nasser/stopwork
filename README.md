@@ -43,7 +43,7 @@ http://www.youtube.com/watch?v=Kdgt1ZHkvnM
 http://en.wikipedia.org/wiki/Lolcat
 ```
 
-Each line represents a slide. Blank lines and lines beggining with `//` are ignored. The slide's type is determined from the text's content. Anything that looks like an image is interpreted and displayed as an image. Anything that looks like a video link or webpage is embedded. Everything else is rendered as [Markdown](http://daringfireball.net/projects/markdown/syntax). That's all.
+Each line represents a slide. Blank lines and lines beggining with `;` are ignored. The slide's type is determined from the text's content. Anything that looks like an image is interpreted and displayed as an image. Anything that looks like a video link or webpage is embedded. Everything else is rendered as [Markdown](http://daringfireball.net/projects/markdown/syntax). That's all.
 
 ### Launch presentation
 
