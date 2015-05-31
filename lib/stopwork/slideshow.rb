@@ -25,7 +25,7 @@ module Stopwork
     end
     
     def cache_folder_name
-      "/.stopwork"
+      ".stopwork"
     end
     
     def cache_folder_path
