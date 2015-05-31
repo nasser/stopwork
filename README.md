@@ -17,6 +17,7 @@ Install Stopwork's dependancies.
 ```
 $ gem install kramdown
 $ gem install mustache
+$ gem install viddl-rb
 ```
 
 Grab the code off of GitHub and `cd` into the folder.
@@ -56,6 +57,10 @@ $ ./bin/stopwork presentation.stpwrk
 This will spin up a server at `http://localhost:54021` where your presentation can be found.
 
 Speak slowly, clearly, and confidently, and maintain eye contact with your audience. You're going to do great.
+
+### Caching
+
+To work in environments without reliable internet, stopwork will cache all images and videos in the background in a folder called `.stopwork` that will be created in the same directory as your presentation file. Cached images and videos wil be used if available, and the remote URLs will be used otherwise. This makes stopwork presentations both usable offline and self-installing.
 
 ### Export presentation
 
