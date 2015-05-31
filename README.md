@@ -60,7 +60,7 @@ Speak slowly, clearly, and confidently, and maintain eye contact with your audie
 
 ### Caching
 
-To work in environments without reliable internet, stopwork will cache all images and videos in the background in a folder called `.stopwork` that will be created in the same directory as your presentation file. Cached images and videos wil be used if available, and the remote URLs will be used otherwise. This makes stopwork presentations both usable offline and self-installing.
+To work in environments without reliable internet, stopwork will cache all images and videos the first time it sees them. Cached files will be placed in a folder called `.stopwork` in the same directory as your presentation file. Remote URLs will only be used if a cached version is not available. This makes stopwork presentations both usable offline and self-installing.
 
 ### Export presentation
 
