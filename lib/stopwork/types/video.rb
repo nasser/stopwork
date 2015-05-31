@@ -5,12 +5,12 @@ module Stopwork
     # Slides consist of a single embeded video. Currently YouTube and Vimeo only.
     # Syntax is any valid youtube or vimeo url
     class Video < Slide
-      # match any youtube or vimeo url
+      # match any video url
       def self.match? slide
         !! (slide =~ /\.(mp4|ogg|mov|webm)/i or slide =~/^data:video/i)
       end
 
-      # populate the div with the appropriate youtube/vimeo iframe
+      # populate the div with the appropriate video tag
       def template
         '<div class="slide video"><video preload=true src="{{slide}}"" controls></video></div>'
       end
