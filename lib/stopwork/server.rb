@@ -17,19 +17,30 @@ module Stopwork
       @file = file
       # super File.dirname(__FILE__)
     end
+    
+    def mime_type file
+      if file =~ /\.css$/
+        "text/css"
+      else
+        `file -Ib #{file}`.gsub(/\n/,"")
+      end
+    end
 
     def call env
+      slideshow_relative = File.expand_path(File.dirname(@file) + env['REQUEST_PATH'])
+      stopwork_relative = File.expand_path(File.dirname(__FILE__) + env['REQUEST_PATH'])
+      
       # root serves slideshow markup
       if env['REQUEST_PATH'] == "/"
         [200, {'Content-Type' => 'text/html'}, Slideshow.new(open(@file)).render]
 
       # check local to slideshow file first for assets
-      elsif File.exists? File.expand_path(File.dirname(@file) + env['REQUEST_PATH'])
-        [200, {'Content-Type' => 'text/html'}, open(File.expand_path(File.dirname(@file) + env['REQUEST_PATH'])).read]
+      elsif File.exists? slideshow_relative
+        [200, {'Content-Type' => mime_type(slideshow_relative) }, open(slideshow_relative).read]
 
       # check local to library second for assets
-      elsif File.exists? File.expand_path(File.dirname(__FILE__) + env['REQUEST_PATH'])
-        [200, {'Content-Type' => 'text/html'}, open(File.expand_path(File.dirname(__FILE__) + env['REQUEST_PATH'])).read]
+      elsif File.exists? stopwork_relative
+        [200, {'Content-Type' => mime_type(stopwork_relative)}, open(stopwork_relative).read]
 
       # else not found
       else
