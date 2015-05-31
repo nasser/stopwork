@@ -9,7 +9,11 @@ module Stopwork
     class HostedVideo < Video
       # match any video url
       def self.match? slide
-        !! ViddlRb::PluginBase.registered_plugins.find { |p| p.matches_provider? slide }
+        begin
+          !! ViddlRb.get_urls(slide)
+        rescue ViddlRb::DownloadError
+          return false
+        end
       end
 
       def url
