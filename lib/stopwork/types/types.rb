@@ -56,6 +56,7 @@ module Stopwork
 end
 
 require_relative "text"
+require_relative "twitter"
 require_relative "image"
 require_relative "cloudapp"
 require_relative "imgur"
@@ -65,7 +66,7 @@ require_relative "hostedvideo"
 
 module Stopwork
   module Types
-    self.match_order = [Imgur, CloudApp, Image, HostedVideo, Video, Web, Text]
+    self.match_order = [Imgur, CloudApp, Image, HostedVideo, Video, Twitter, Web, Text]
 
     def self.render slide, slideshow
       self.match_order.select { |f| f.match? slide }.first.new(slide, slideshow).render # TODO optimize
