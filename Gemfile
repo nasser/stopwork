@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+gem 'rack'
+gem 'thin'
+gem 'kramdown'
+gem 'mustache'
+gem 'viddl-rb'
