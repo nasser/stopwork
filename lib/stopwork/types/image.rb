@@ -14,7 +14,7 @@ module Stopwork
 
       # set slide's css background to image url, css will center/scale it
       def template
-        '<div class="slide image" style="background-image:url({{url}});"></div>'
+        '<div class="slide image" style="background-image:url({{url}}); background-size: contain;"></div>'
       end
       
       # url is adjusted to accomodate local images

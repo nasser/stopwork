@@ -30,22 +30,28 @@ module Stopwork
       slideshow_relative = File.expand_path(File.dirname(@file) + env['REQUEST_PATH'])
       stopwork_relative = File.expand_path(File.dirname(__FILE__) + env['REQUEST_PATH'])
       
-      # root serves slideshow markup
-      if env['REQUEST_PATH'] == "/"
-        [200, {'Content-Type' => 'text/html'}, Slideshow.new(open(@file)).render]
+      begin
+        # root serves slideshow markup
+        if env['REQUEST_PATH'] == "/"
+          [200, {'Content-Type' => 'text/html'}, Slideshow.new(open(@file)).render]
 
-      # check local to slideshow file first for assets
-      elsif File.exists? slideshow_relative
-        [200, {'Content-Type' => mime_type(slideshow_relative) }, open(slideshow_relative).read]
+        # check local to slideshow file first for assets
+        elsif File.exists? slideshow_relative
+          [200, {'Content-Type' => mime_type(slideshow_relative) }, open(slideshow_relative).read]
 
-      # check local to library second for assets
-      elsif File.exists? stopwork_relative
-        [200, {'Content-Type' => mime_type(stopwork_relative)}, open(stopwork_relative).read]
+        # check local to library second for assets
+        elsif File.exists? stopwork_relative
+          [200, {'Content-Type' => mime_type(stopwork_relative)}, open(stopwork_relative).read]
 
-      # else not found
-      else
-        [404, {'Content-Type' => 'text/html'}, "<h1>NOT FOUND</h1>"]
+        # else not found
+        else
+          [404, {'Content-Type' => 'text/html'}, "<h1>NOT FOUND</h1>"]
 
+        end
+        
+      rescue Exception => e
+        message = "#{e.class} #{e.message}\n#{e.backtrace.join("\n")}"
+        [500, {'Content-Type' => 'text/html'}, "<pre>#{message}</pre>"]
       end
     end
   end

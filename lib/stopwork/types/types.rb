@@ -18,6 +18,12 @@ module Stopwork
         @slideshow = slideshow
       end
       
+      def cached? url
+        url_hash = Digest::SHA1.hexdigest url
+        cached_file = @slideshow.cache_folder_path + "/" + url_hash
+        File.exists? cached_file
+      end
+      
       def cached url, key=nil
         key = url if key.nil?
         key_hash = Digest::SHA1.hexdigest key
@@ -66,9 +72,10 @@ require_relative "hostedvideo"
 
 module Stopwork
   module Types
-    self.match_order = [Imgur, CloudApp, Image, HostedVideo, Video, Twitter, Web, Text]
+    self.match_order = [Imgur, CloudApp, Image,  Video, Twitter, Web, Text]
 
     def self.render slide, slideshow
+      puts "Rendering #{slide}..."
       self.match_order.select { |f| f.match? slide }.first.new(slide, slideshow).render # TODO optimize
     end
   end
