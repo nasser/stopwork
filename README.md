@@ -12,19 +12,19 @@ Usage
 ### Get Stopwork
 There is no Ruby Gem yet, so the installation procedure is manual.
 
-Install Stopwork's dependancies.
-
-```
-$ gem install kramdown
-$ gem install mustache
-$ gem install viddl-rb
-```
-
 Grab the code off of GitHub and `cd` into the folder.
 
 ```
 $ git clone git@github.com:nasser/stopwork.git
 $ cd stopwork
+```
+
+Install Stopwork's dependencies.
+Dependencies are managed using [Bundler](http://bundler.io/).
+
+```
+$ gem install bundler
+$ bundle install
 ```
 
 ### Write presentation
@@ -51,7 +51,7 @@ Each line represents a slide. Blank lines and lines beggining with `;` are ignor
 Launch the presentation by running the script in the `bin` folder with the path to the presentation file as an argument
 
 ```
-$ ./bin/stopwork presentation.stpwrk
+$ bundle exec ./bin/stopwork presentation.stpwrk
 ```
 
 This will spin up a server at `http://localhost:54021` where your presentation can be found.
@@ -67,7 +67,7 @@ To work in environments without reliable internet, stopwork will cache all image
 To share your presentation, export it
 
 ```
-$ ./bin/stopwork export presentation.stpwrk
+$ bundle exec ./bin/stopwork export presentation.stpwrk
 ```
 
 This will create `presentation.stpwrk.html` with all the CSS and JavaScript embedded in it.
