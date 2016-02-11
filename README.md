@@ -9,10 +9,13 @@ So I built this. It is HTML 5 based, runs in your browser, makes use of CSS for 
 Usage
 -----
 
+### Use it online
+[Stopwork is usable](http://nas.sr/stopwork/demo/) without downloading it. The online version is fully featured, and everything is stored locally in your browser so no one has access to your work.
+
 ### Get Stopwork
 Grab the code off of GitHub and open `index.html`.
 
-For export to work correctly you will have to spin up a local server from stopwork's folder and navigate to that URL in your browser instead. I use [statik](https://www.npmjs.com/package/statik).
+For export to work correctly you will have to spin up a local server from Stopwork's folder and navigate to that URL in your browser instead. I use [statik](https://www.npmjs.com/package/statik).
 
 ### Write presentation
 * `escape` toggle edit and presentation mode
@@ -32,7 +35,7 @@ For export to work correctly you will have to spin up a local server from stopwo
 
 You can copy/paste or drag images from anywhere into edit mode to create an image slide. The image content is stored in the presentation, so the original files are irrelevant. Text slides are rendered as [Markdown](http://daringfireball.net/projects/markdown/syntax).
 
-An effective workflow is using the [OSX global screenshot shortcuts](https://support.apple.com/en-us/HT201361) while holding `control` to grab windows and regions of the screen to the clipboard and then paste them into stopwork.
+An effective workflow is using the [OSX global screenshot shortcuts](https://support.apple.com/en-us/HT201361) while holding `control` to grab windows and regions of the screen to the clipboard and then paste them into Stopwork.
 
 ### Launch presentation
 Launch the presentation hitting `escape` or downloading a self-contained HTML slideshow and opening that file.
