@@ -1,0 +1,68 @@
+<html>
+<head>
+  <meta charset="utf8">
+  <title>Stopwork Next</title>
+  <link rel="stylesheet" type="text/css" href="slide.css">
+  <link rel="stylesheet" type="text/css" href="print.css" media="print">
+  <style type="text/css">
+  body {
+    display: flex;
+    background-size: cover;
+    font-family: sans-serif;
+  }
+  
+  body.outline {
+    margin: 10px;
+    background: #eee;
+    flex-wrap: wrap;
+    align-content: flex-start;
+  }
+  
+  body.show {
+    margin: 0;
+    background: #fff;
+  }
+  
+  .outline slide {
+    width: 10%;
+    height: 10%;
+    padding: 1em;
+    margin: 10px;
+    font-size: 0.2em;
+  }
+  
+  .outline slide {
+    box-shadow: 0px 0px 0px 0px #ccc;
+  }
+  
+  .outline slide:hover {
+    box-shadow: 0px 2px 0px 0px #ccc;
+  }
+  
+  .outline slide.current {
+    box-shadow: 0px 5px 0px 0px #999;
+  }
+  
+  .show slide {
+    width: 100%;
+    height: 100%;
+
+    display: none;
+    font-size: 2em !important;
+  }
+  
+  .show slide.current {
+    display: flex;
+  }
+  </style>
+  <script type="text/javascript" src="markdown.min.js"></script>
+  <script type="text/javascript" src="prompt.js"></script>
+  <script type="text/javascript" export src="show.js"></script>
+  <script type="text/javascript" src="edit.js"></script>
+</head>
+<body class="outline">
+  <slide source="# Stopwork" class="current">
+    <h1>Stopwork</h1>
+  </slide>
+</body>
+</html>

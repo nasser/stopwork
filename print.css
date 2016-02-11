@@ -1,0 +1,10 @@
+@media print { 
+  body {
+    display: block !important;
+  }
+
+  slide {
+    display: flex !important;
+    page-break-after: always;
+  }
+}
