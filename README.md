@@ -37,6 +37,8 @@ You can copy/paste or drag images from anywhere into edit mode to create an imag
 
 An effective workflow is using the [OSX global screenshot shortcuts](https://support.apple.com/en-us/HT201361) while holding `control` to grab windows and regions of the screen to the clipboard and then paste them into Stopwork.
 
+The key bindings are meant to feel as fluid as an advanced text editor like SublimeText, but allow you to manipulate slides instead of characters.
+
 ### Launch presentation
 Launch the presentation hitting `escape` or downloading a self-contained HTML slideshow and opening that file.
 
