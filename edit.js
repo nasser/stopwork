@@ -36,6 +36,12 @@ function promptEditSlide(slide) {
   });
 }
 
+// lame
+extensions = {
+  "image/svg+xml": ".svg",
+  "video/mp4": ".mp4"
+}
+
 document.onpaste = function(event) {
   var currents = document.querySelectorAll(".current");
   var lastCurrent = currents[currents.length - 1];
@@ -55,19 +61,29 @@ document.onpaste = function(event) {
       
     } else if(items[i].kind == "file") {
       var blob = items[i].getAsFile();
-      var reader  = new FileReader();
+      var reader = new FileReader();
+      
       reader.onload = function () {
-        var slide = newSlide();
-        var img = document.createElement("img");
-        img.src = reader.result;
-        slide.appendChild(img);
-        if(lastCurrent && lastCurrent.nextElementSibling)
-          lastCurrent.parentNode.insertBefore(slide, lastCurrent.nextElementSibling)
-        else
-          document.body.appendChild(slide);
+        var sha = new jsSHA("SHA-1", "BYTES");
+        sha.update(reader.result);
+        var hash = sha.getHash("HEX");
+        var extension = extensions[blob.type] || "";
+        var name = hash + extension;
+        console.log("caching " + blob.size + "b " + blob.type + " to " + name);
         
+        fs.write(name, blob, function() {
+          var url = "filesystem:http://" + location.host + "/persistent/" + name;
+          var slide = newSlide();
+          var img = document.createElement("img");
+          img.src = url;
+          slide.appendChild(img);
+          if(lastCurrent && lastCurrent.nextElementSibling)
+            lastCurrent.parentNode.insertBefore(slide, lastCurrent.nextElementSibling)
+          else
+            document.body.appendChild(slide);
+        });
       }
-      reader.readAsDataURL(blob);
+      reader.readAsBinaryString(blob);
     }
   };
 }
@@ -90,42 +106,89 @@ document.ondrop = function(event) {
   if(event.dataTransfer.getData("text/html")) {
     var temp = document.createElement('temp');
     temp.innerHTML = event.dataTransfer.getData("text/html");
+    var remoteUrl = temp.querySelector("img").getAttribute("src");
     
-    var slide = newSlide();
-    var img = document.createElement('img');
-    img.src = temp.querySelector("img").getAttribute("src");
-    slide.appendChild(img);
-    document.body.insertBefore(slide, lastCurrent.nextElementSibling);
+    getBlob("//cors-anywhere.herokuapp.com/" + remoteUrl, function(blob) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        var sha = new jsSHA("SHA-1", "BYTES");
+        sha.update(reader.result);
+        var hash = sha.getHash("HEX");
+        
+        var extension = extensions[blob.type] || "";
+        var name = hash + extension;
+        console.log("downloaded " + remoteUrl);
+        console.log("caching " + blob.size + "b " + blob.type + " to " + name);
+
+        fs.write(name, blob, function() {
+          var url = "filesystem:http://" + location.host + "/persistent/" + name;
+          var slide = newSlide();
+          var img = document.createElement('img');
+          img.src = url;
+          slide.appendChild(img);
+          document.body.insertBefore(slide, lastCurrent.nextElementSibling);
+        });
+      }
+      reader.readAsBinaryString(blob);
+    })
 
   } else if(event.dataTransfer.files.length > 0) {
     var files = event.dataTransfer.files;
     for (var i = 0; i < files.length; i++) {
-      console.log(files[i]);
-      if (files[i].type.match(/image.*/)) {
+      var blob = files[i];
+      if (blob.type.match(/image.*/)) {
         var reader = new FileReader();
         reader.onload = function() {
-          var slide = newSlide();
-          var img = document.createElement('img');
-          img.src = reader.result;
-          slide.appendChild(img);
-          document.body.appendChild(slide);
+          var sha = new jsSHA("SHA-1", "BYTES");
+          sha.update(reader.result);
+          var hash = sha.getHash("HEX");
+          
+          var extension = extensions[blob.type] || "";
+          var name = hash + extension;
+          console.log("caching " + blob.size + "b " + blob.type + " to " + name);
+
+          fs.write(name, blob, function() {
+            var url = "filesystem:http://" + location.host + "/persistent/" + name;
+            var slide = newSlide();
+            var img = document.createElement("img");
+            img.src = url;
+            slide.appendChild(img);
+            if(lastCurrent && lastCurrent.nextElementSibling)
+              lastCurrent.parentNode.insertBefore(slide, lastCurrent.nextElementSibling)
+            else
+              document.body.appendChild(slide);
+          });
         }
-        reader.readAsDataURL(files[i]);
+        reader.readAsBinaryString(files[i]);
       } else if (files[i].type.match(/video.*/)) {
         var type = files[i].type;
         var reader = new FileReader();
         reader.onload = function() {
-          var slide = newSlide();
-          var video = document.createElement('video');
-          var source = document.createElement('source');
-          source.src = reader.result;
-          source.setAttribute("type", type);
-          video.setAttribute("controls", true);
-          video.appendChild(source);
-          slide.appendChild(video);
-          document.body.appendChild(slide);
+          var sha = new jsSHA("SHA-1", "BYTES");
+          sha.update(reader.result);
+          var hash = sha.getHash("HEX");
+          
+          var extension = extensions[blob.type] || "";
+          var name = hash + extension;
+          console.log("caching " + blob.size + "b " + blob.type + " to " + name);
+
+          fs.write(name, blob, function() {
+            var url = "filesystem:http://" + location.host + "/persistent/" + name;
+            var slide = newSlide();
+            var video = document.createElement('video');
+            var source = document.createElement('source');
+            source.src = url;
+            source.setAttribute("type", type);
+            // video.setAttribute("controls", true);
+            video.appendChild(source);
+            slide.appendChild(video);
+            if(lastCurrent && lastCurrent.nextElementSibling)
+              lastCurrent.parentNode.insertBefore(slide, lastCurrent.nextElementSibling)
+            else
+              document.body.appendChild(slide);
+          });
         }
-        reader.readAsDataURL(files[i]);
+        reader.readAsBinaryString(files[i]);
       }
     }
   } else if(event.dataTransfer.items.length > 0) {
@@ -163,11 +226,26 @@ document.ondrop = function(event) {
 }
 
 function deleteSlide(slide) {
+  var img = slide.querySelector("img,source");
+  if(img) {
+    var src = img.getAttribute("src");
+    if(src.match(/^filesystem:.*/)) {
+      var segments = src.split("/");
+      var hash = segments[segments.length-1];
+      fs.remove(hash, () => console.log("removed " + hash));
+    }
+  }
   if(slide.nextElementSibling)
     select(slide.nextElementSibling);
   else if(slide.previousElementSibling)
     select(slide.previousElementSibling);
   document.body.removeChild(slide);
+}
+
+function deleteSlides(slides) {
+  for (var i = slides.length - 1; i >= 0; i--) {
+    deleteSlide(slides[i]);
+  };
 }
 
 window.addEventListener("keydown", function(e) {
@@ -197,7 +275,7 @@ window.addEventListener("keydown", function(e) {
   } else if(e.which == 8) {
     e.preventDefault();
     e.stopPropagation();
-    deleteSlide(lastCurrent);
+    deleteSlides(currents);
     
   // return
   } else if(e.which == 13 && !e.altKey) {
@@ -279,10 +357,28 @@ function get(url, cb) {
   request.send(null);
 }
 
+function getBlob(url, cb) {
+  var request = new XMLHttpRequest();
+  request.responseType = "blob";
+  request.onload = function() {
+    if(request.status === 200)
+      cb(this.response);
+    else
+      console.log(url + " failed " + request.status);
+  }
+  request.open('GET', url, true);
+  request.send(null);
+}
+
 var styles = [];
 var scripts = [];
 
 window.onload = function() {
+  fs.request(1024*1024*200, function(bytes) {
+    console.log("granted " + bytes + "b")
+  });
+  fs.query((used, total) =>
+      console.log(used + "/" + total + "b (" + (used/total * 100).toFixed(2) + "%)"));
   // prepare for saving
   var styleElements = document.querySelectorAll("style");
   for (var i = 0; i < styleElements.length; i++) {

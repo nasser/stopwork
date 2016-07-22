@@ -1,6 +1,12 @@
 function deselectAll() {
   var currents = document.querySelectorAll(".current");
   [].forEach.call(currents, function(c) {
+    var video = c.querySelector("video");
+    if(video) {
+      video.pause();
+      video.currentTime = 0;
+    }
+      
     c.removeAttribute("class");
   });
 }
@@ -23,5 +29,23 @@ window.addEventListener("keydown", function(e) {
   } else if(e.which == 37 && !e.altKey && !e.shiftKey) {
     deselectAll();
     select(firstCurrent ? (firstCurrent.previousElementSibling || firstCurrent.parentNode.lastElementChild) : document.querySelector("slide"));    
+    
+  // space
+  } else if(e.which == 32) {
+    var video = document.querySelector(".current video");
+    if(video) {
+      if(video.paused)
+        video.play();
+      else
+        video.pause();
+    }
   }
+  
+  // replay gifs
+  setTimeout(() => {
+    var img = document.querySelector(".current img");
+    if(img) {
+      img.setAttribute("src", img.getAttribute("src"));
+    }
+  }, 0);
 });

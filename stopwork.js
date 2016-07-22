@@ -275,7 +275,7 @@ window.onkeydown = function(e) {
     var body = "<body class=\"exported show\">" + 
                document.body.innerHTML +
                "</body>";
-    var html = "<html>" + head + body + "</head>";
+    var html = "<html>" + head + body + "</html>";
     
     var d = new Date().toLocaleString().
                        replace(/\//g, "-").
@@ -330,14 +330,14 @@ window.onload = function() {
           scripts.push('<script type="text/javascript">\n' + s + '\n<\/script>');
         });
       }
-      
-      if(localStorage.stopwork)
-        document.body.innerHTML = localStorage.stopwork;
-      
-      setInterval(function() {
-        localStorage.stopwork = document.body.innerHTML;
-      }, 500);
     }
+      
+    if(localStorage.stopwork)
+      document.body.innerHTML = localStorage.stopwork;
+    
+    setInterval(function() {
+      localStorage.stopwork = document.body.innerHTML;
+    }, 500);
   }
   
   var slides = document.querySelectorAll("slide");
