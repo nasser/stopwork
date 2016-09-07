@@ -1,59 +1,36 @@
-var fs = {
-  request: function(bytes, cb) {
-    navigator.webkitPersistentStorage.requestQuota(bytes, function(actualBytes) {
-      if(cb) cb(actualBytes);
-    });
-  },
-  
-  query: function(cb) {
-    navigator.webkitPersistentStorage.queryUsageAndQuota(cb);
-  },
-  
+var fs = require("fs")
+var os = require("os")
+var path = require("path")
+
+// http://stackoverflow.com/questions/23986953/blob-saved-as-object-object-nodejs
+var blobToBase64 = function(blob, cb) {
+  var reader = new FileReader();
+  reader.onload = function() {
+    var dataUrl = reader.result;
+    var base64 = dataUrl.split(',')[1];
+    cb(base64);
+  };
+  reader.readAsDataURL(blob);
+};
+
+var cache = {
   read: function(filename, cb, err) {
-    window.webkitRequestFileSystem(PERSISTENT, 0, function(fs) {
-      fs.root.getFile(filename, {},
-        function(entry) {
-          entry.file(function(file) {
-            var reader = new FileReader();
-            if(err)
-              reader.onerror = err;
-            if(cb) 
-              reader.onloadend = function(e) {
-               cb(e.target.result);
-             }
-             reader.readAsText(file);
-           });
-        });
-    });
+    
   },
   
   write: function(filename, blob, cb, err) {
-    console.log("writing " + blob.size + "b " + blob.type + " to " + filename);
-    window.webkitRequestFileSystem(PERSISTENT, blob.size, function(fs) {
-      fs.root.getFile(filename, {create:true, exclusive:false},
-        function(entry) {
-          entry.file(function(file) {
-            if(blob.size < file.size) {
-              entry.createWriter(function(writer) {
-                writer.onwriteend = function(e) {
-                  writer.onwriteend = null;
-                  if(cb) writer.onwriteend = cb;
-                  if(err) writer.onerror = err;
-                  writer.write(blob);
-                }
-                
-                writer.truncate(blob.size);
-              });
-              
-            } else {
-              entry.createWriter(function(writer) {
-                if(cb) writer.onwriteend = cb;
-                if(err) writer.onerror = err;
-                writer.write(blob);
-              });
-            }
-          });
+    // TODO duplicated logic
+    var cachedir = os.homedir() + path.sep + ".stopwork" + path.sep;
+    console.log("cachedir: " + cachedir);
+    
+    fs.mkdir(cachedir, () => {
+      console.log("writing " + blob.size + "b " + blob.type + " to " + filename);
+      blobToBase64(blob, (b64) => {
+        var buf = new Buffer(b64, 'base64');
+        fs.writeFile(cachedir + filename, buf, function(err) {
+          cb()
         });
+      });
     });
   },
 
@@ -67,11 +44,9 @@ var fs = {
   },
   
   remove: function(filename, cb) {
-    window.webkitRequestFileSystem(PERSISTENT, 0, function(fs) {
-      fs.root.getFile(filename, {},
-        function(entry) {
-          entry.remove(cb || function() {});
-        });
-    });
+    console.log("cache.remove " + filename)
+    // TODO duplicated logic
+    var cachedir = os.homedir() + path.sep + ".stopwork" + path.sep;
+    fs.unlink(cachedir + filename, cb);
   }
 }

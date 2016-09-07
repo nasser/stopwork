@@ -1,10 +1,9 @@
-@media print { 
-  body {
-    display: block !important;
-  }
+/* @media queries not working in electron? */
+body.print {
+  display: block !important;
+}
 
-  slide {
-    display: flex !important;
-    page-break-after: always;
-  }
+body.print slide {
+  display: flex !important;
+  page-break-after: always;
 }

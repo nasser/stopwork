@@ -1,3 +1,13 @@
+var {remote} = require("electron")
+
+function timeStamp() {
+  return new Date().toLocaleString().
+          replace(/\//g, "-").
+          replace(/,/g, "-").
+          replace(/:/g, "-").
+          replace(/ /g, "");    
+}
+
 function initializeSlideEvents(slide) {
   slide.onclick = function(e) {
     console.log(e)
@@ -71,8 +81,8 @@ document.onpaste = function(event) {
         var name = hash + extension;
         console.log("caching " + blob.size + "b " + blob.type + " to " + name);
         
-        fs.write(name, blob, function() {
-          var url = "filesystem:http://" + location.host + "/persistent/" + name;
+        cache.write(name, blob, function() {
+          var url = "cache:" + name;
           var slide = newSlide();
           var img = document.createElement("img");
           img.src = url;
@@ -108,7 +118,7 @@ document.ondrop = function(event) {
     temp.innerHTML = event.dataTransfer.getData("text/html");
     var remoteUrl = temp.querySelector("img").getAttribute("src");
     
-    getBlob("//cors-anywhere.herokuapp.com/" + remoteUrl, function(blob) {
+    getBlob(remoteUrl, function(blob) {
       var reader = new FileReader();
       reader.onload = function() {
         var sha = new jsSHA("SHA-1", "BYTES");
@@ -120,8 +130,8 @@ document.ondrop = function(event) {
         console.log("downloaded " + remoteUrl);
         console.log("caching " + blob.size + "b " + blob.type + " to " + name);
 
-        fs.write(name, blob, function() {
-          var url = "filesystem:http://" + location.host + "/persistent/" + name;
+        cache.write(name, blob, function() {
+          var url = "cache:" + name;
           var slide = newSlide();
           var img = document.createElement('img');
           img.src = url;
@@ -147,8 +157,8 @@ document.ondrop = function(event) {
           var name = hash + extension;
           console.log("caching " + blob.size + "b " + blob.type + " to " + name);
 
-          fs.write(name, blob, function() {
-            var url = "filesystem:http://" + location.host + "/persistent/" + name;
+          cache.write(name, blob, function() {
+            var url = "cache:" + name;
             var slide = newSlide();
             var img = document.createElement("img");
             img.src = url;
@@ -172,8 +182,8 @@ document.ondrop = function(event) {
           var name = hash + extension;
           console.log("caching " + blob.size + "b " + blob.type + " to " + name);
 
-          fs.write(name, blob, function() {
-            var url = "filesystem:http://" + location.host + "/persistent/" + name;
+          cache.write(name, blob, function() {
+            var url = "cache:" + name;
             var slide = newSlide();
             var video = document.createElement('video');
             var source = document.createElement('source');
@@ -227,12 +237,13 @@ document.ondrop = function(event) {
 
 function deleteSlide(slide) {
   var img = slide.querySelector("img,source");
+  console.log(img)
   if(img) {
     var src = img.getAttribute("src");
-    if(src.match(/^filesystem:.*/)) {
-      var segments = src.split("/");
+    if(src.match(/^cache:.*/)) {
+      var segments = src.split(":");
       var hash = segments[segments.length-1];
-      fs.remove(hash, () => console.log("removed " + hash));
+      cache.remove(hash, () => console.log("removed " + hash));
     }
   }
   if(slide.nextElementSibling)
@@ -246,6 +257,33 @@ function deleteSlides(slides) {
   for (var i = slides.length - 1; i >= 0; i--) {
     deleteSlide(slides[i]);
   };
+}
+
+function exportableHTML() {
+  // TODO embed images here
+  deselectAll();
+  select(document.querySelector("slide"));
+  
+  var head = "<head><meta charset=\"utf8\">" +
+             styles.join("\n") + 
+             scripts.join("\n") + 
+             "</head>";
+             
+  var body = "<body class=\"exported show\">" + 
+             document.body.innerHTML +
+             "</body>";
+  var html = "<html>" + head + body + "</head>";
+                     
+  return html;
+}
+
+function saveFile (data,mime,name) {
+  // TODO convert to remote.dialog.showSaveDialog, does it make a differnce?
+  var blob = new Blob([data], {type:mime});
+  var a = document.createElement("a");
+  a.href = window.URL.createObjectURL(blob);
+  a.setAttribute("download", name);
+  a.click();
 }
 
 window.addEventListener("keydown", function(e) {
@@ -319,29 +357,28 @@ window.addEventListener("keydown", function(e) {
     
   // ctrl + s
   } else if(e.which == 83 && e.ctrlKey) {
-    deselectAll();
-    select(document.querySelector("slide"));
+    var name = document.querySelectorAll("slide")[0].textContent.trim() + " " + timeStamp();
+    saveFile(exportableHTML(), "text/html", name);
     
-    var head = "<head><meta charset=\"utf8\">" +
-               styles.join("\n") + 
-               scripts.join("\n") + 
-               "</head>";
-               
-    var body = "<body class=\"exported show\">" + 
-               document.body.innerHTML +
-               "</body>";
-    var html = "<html>" + head + body + "</head>";
+  // ctrl + e
+  } else if(e.which == 69 && e.ctrlKey) {
+    console.log("exporting")
+    // TODO @media print not working
+    document.body.setAttribute("class", "show print");
+    // remote.BrowserWindow.getFocusedWindow().webContents.print();
+    remote.BrowserWindow.getFocusedWindow().webContents.printToPDF({landscape:true}, function(err, data) {
+      if(err) throw err;
+      console.log("got pdf data")
+      var name = document.querySelectorAll("slide")[0].textContent.trim() + " " + timeStamp();
+      saveFile(data, "application/pdf", name);
+    })
     
-    var d = new Date().toLocaleString().
-                       replace(/\//g, "-").
-                       replace(/:/g, "-").
-                       replace(/ /g, "");
-                       
-    var blob = new Blob([html], {type:"text/html"});
-    var a = document.createElement("a");
-    a.href = window.URL.createObjectURL(blob);
-    a.setAttribute("download", document.querySelectorAll("slide")[0].textContent.trim() + " " + d + ".html");
-    a.click();
+  // ctrl + p
+  } else if(e.which == 80 && e.ctrlKey) {
+    console.log("printing")
+    // TODO @media print not working
+    document.body.setAttribute("class", "show print");
+    remote.BrowserWindow.getFocusedWindow().webContents.print();
   }
 });
 
@@ -374,11 +411,6 @@ var styles = [];
 var scripts = [];
 
 window.onload = function() {
-  fs.request(1024*1024*200, function(bytes) {
-    console.log("granted " + bytes + "b")
-  });
-  fs.query((used, total) =>
-      console.log(used + "/" + total + "b (" + (used/total * 100).toFixed(2) + "%)"));
   // prepare for saving
   var styleElements = document.querySelectorAll("style");
   for (var i = 0; i < styleElements.length; i++) {

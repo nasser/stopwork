@@ -1,0 +1,22 @@
+{
+  "name": "stopwork",
+  "version": "0.0.3",
+  "description": "Stopwork Slideshow Framework",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nasser/stopwork.git"
+  },
+  "keywords": [
+    "slideshow"
+  ],
+  "author": "Ramsey Nasser",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nasser/stopwork/issues"
+  },
+  "homepage": "https://github.com/nasser/stopwork#readme"
+}
