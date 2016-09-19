@@ -1,4 +1,3 @@
-const {remote} = require('electron');
 const {BrowserWindow, Menu, MenuItem} = remote;
 
 const template = [

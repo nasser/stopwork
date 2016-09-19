@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/nasser/stopwork/issues"
   },
-  "homepage": "https://github.com/nasser/stopwork#readme"
+  "homepage": "https://github.com/nasser/stopwork#readme",
+  "dependencies": {
+    "file-type": "^3.8.0"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.0"
+  }
 }

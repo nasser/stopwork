@@ -1,4 +1,5 @@
-var {remote} = require("electron")
+var {remote} = require("electron"),
+    fileType = require("file-type");
 
 function timeStamp() {
   return new Date().toLocaleString().
@@ -243,7 +244,10 @@ function deleteSlide(slide) {
     if(src.match(/^cache:.*/)) {
       var segments = src.split(":");
       var hash = segments[segments.length-1];
-      cache.remove(hash, () => console.log("removed " + hash));
+      // TODO multiple slideshows
+      // disabling cache invalidation for now
+      // cache is unbounded, be careful
+      // cache.remove(hash, () => console.log("removed " + hash));
     }
   }
   if(slide.nextElementSibling)
@@ -273,6 +277,17 @@ function exportableHTML() {
              document.body.innerHTML +
              "</body>";
   var html = "<html>" + head + body + "</head>";
+  
+  // embed cached images
+  var cachedImages = html.match(/cache:[a-zA-Z0-9]+/g);
+  for(var i in cachedImages) {
+    var cachedUrl = cachedImages[i];
+    var hash = cachedUrl.match(/:(.*)/)[1]
+    var imageData = cache.readSync(hash);
+    var mimeType = fileType(imageData).mime;
+    var imageDataB64 = imageData.toString("base64");
+    html = html.replace(cachedUrl, "data:" + mimeType + ";base64," + imageDataB64);
+  }
                      
   return html;
 }

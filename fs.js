@@ -14,8 +14,19 @@ var blobToBase64 = function(blob, cb) {
 };
 
 var cache = {
-  read: function(filename, cb, err) {
-    
+  read: function(hash, cb) {
+    // TODO duplicated logic
+    var cachedir = os.homedir() + path.sep + ".stopwork" + path.sep;
+    fs.readFile(cachedir + hash, (err, file) => {
+      if(err) throw err;
+      cb(data);
+    });
+  },
+  
+  readSync: function(hash) {
+    // TODO duplicated logic
+    var cachedir = os.homedir() + path.sep + ".stopwork" + path.sep;
+    return fs.readFileSync(cachedir + hash);
   },
   
   write: function(filename, blob, cb, err) {
