@@ -4,7 +4,7 @@ A minimal public presentation platform.
 
 Keynote and Powerpoint are almost always too bloated for the presentations I build. They are full to the brim with features that I never use, like transitions, formatting, sound effects, and the experience of constructing a presentation feels cumbersome.
 
-So I built this. It is HTML 5 based, runs in your browser, makes use of CSS for styling, and JavaScript for slide logic. It makes the kind of presentations I do very easy to knock together, and it may do the same for you.
+So I built this. It is HTML 5 based, runs as a native app via [Electron](http://electron.atom.io/), makes use of CSS for styling, and JavaScript for slide logic. It makes the kind of presentations I do very easy to knock together, and it may do the same for you.
 
 Usage
 -----
